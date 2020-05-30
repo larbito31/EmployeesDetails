@@ -54,6 +54,20 @@ namespace EmployeesDetails
             ((DataGridViewImageColumn)dataGridView1.Columns[5]).ImageLayout = DataGridViewImageCellLayout.Stretch; //image column 
 
             con.Close();
+
+        }
+
+        void clear_data()
+        {
+            txt_phone.Clear();
+            txt_email.Clear();
+            txt_name.Clear();
+            txt_address.Clear();
+            pictureBox1.Image = Properties.Resources.dad;
+            
+
+
+
         }
 
         private void label4_Click(object sender, EventArgs e)
@@ -70,7 +84,8 @@ namespace EmployeesDetails
                     "VALUES (@employee_id, @employee_name, @employee_phone, @employee_email, @employee_address)";
                 
                 SqlCommand cmd = new SqlCommand(insertQ, con);
-                cmd.Parameters.AddWithValue("@employee_id", dt.Rows.Count+ 1);
+                cmd.Parameters.AddWithValue("@employee_id", dt.Rows.Count + 1);
+             
                 cmd.Parameters.AddWithValue("@employee_name", txt_name.Text);
                 cmd.Parameters.AddWithValue("@employee_phone", txt_phone.Text);
                 cmd.Parameters.AddWithValue("@employee_email", txt_email.Text);
@@ -80,7 +95,7 @@ namespace EmployeesDetails
                 con.Close();
                 
                 LoadData();
-                MessageBox.Show("Added");
+                MessageBox.Show("Successfully added!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
 
 
@@ -90,7 +105,7 @@ namespace EmployeesDetails
                   "VALUES (@employee_id, @employee_name, @employee_phone, @employee_email, @employee_address, @employee_picture)";
 
                 SqlCommand cmd = new SqlCommand(insertQ, con);
-                cmd.Parameters.Add("@employee_picture", SqlDbType.Image).Value = System.IO.File.ReadAllBytes(op.FileName);
+                cmd.Parameters.Add("@employee_picture", SqlDbType.Image).Value = File.ReadAllBytes(op.FileName);
                 cmd.Parameters.AddWithValue("@employee_id", dt.Rows.Count + 1);
                 cmd.Parameters.AddWithValue("@employee_name", txt_name.Text);
                 cmd.Parameters.AddWithValue("@employee_phone", txt_phone.Text);
@@ -101,7 +116,8 @@ namespace EmployeesDetails
                 con.Close();
 
                 LoadData();
-                MessageBox.Show("Added");
+                
+                MessageBox.Show("Successfully added!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             
         }
@@ -130,6 +146,47 @@ namespace EmployeesDetails
 
         private void button2_Click(object sender, EventArgs e)
         {
+            if (op.FileName == "")
+            {
+
+                String insertQ = "UPDATE employee_details SET employee_name= @employee_name, employee_phone= @employee_phone, employee_email= @employee_email, employee_address=@employee_address where employee_id = @ID";
+                  
+
+                SqlCommand cmd = new SqlCommand(insertQ, con);
+               
+                cmd.Parameters.AddWithValue("@employee_name", txt_name.Text);
+                cmd.Parameters.AddWithValue("@employee_phone", txt_phone.Text);
+                cmd.Parameters.AddWithValue("@employee_email", txt_email.Text);
+                cmd.Parameters.AddWithValue("@employee_address", txt_address.Text);
+                cmd.Parameters.AddWithValue("@ID", dataGridView1.SelectedRows[0].Cells[0].Value);
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+
+                LoadData();
+                MessageBox.Show("Successfully Updated!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+
+
+            }
+            else
+            {
+                String insertQ = "UPDATE employee_details SET employee_name= @employee_name, employee_phone= @employee_phone, employee_email= @employee_email, employee_address=@employee_address, employee_picture= @employee_picture where employee_id = @ID";
+
+                SqlCommand cmd = new SqlCommand(insertQ, con);
+                cmd.Parameters.Add("@employee_picture", SqlDbType.Image).Value = File.ReadAllBytes(op.FileName);
+                cmd.Parameters.AddWithValue("@employee_name", txt_name.Text);
+                cmd.Parameters.AddWithValue("@employee_phone", txt_phone.Text);
+                cmd.Parameters.AddWithValue("@employee_email", txt_email.Text);
+                cmd.Parameters.AddWithValue("@employee_address", txt_address.Text);
+                cmd.Parameters.AddWithValue("@ID", dataGridView1.SelectedRows[0].Cells[0].Value);
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+
+                LoadData();
+                MessageBox.Show("Successfully Updated!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
 
         }
 
@@ -161,6 +218,111 @@ namespace EmployeesDetails
             catch (Exception ex)
             {
                 //MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            DialogResult dialogr = MessageBox.Show("Are you Sure delete this row?", "Warning !!", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+        if (dialogr == DialogResult.Yes )
+            {
+                
+                cmd = new SqlCommand("DELETE FROM employee_details where employee_id = " + dataGridView1.SelectedRows[0].Cells[0].Value, con);
+                
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+                LoadData();
+
+
+                // reorder the ID from 1
+                for (int i=0; i<=dt.Rows.Count - 1 ; i++)
+                {
+                   
+                    
+                    cmd  = new SqlCommand("update employee_details set employee_id =" + (i+1) + " where employee_id = "  +
+                        (dt.Rows[i].ItemArray[0]) + "", con);
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                    con.Close();
+                    LoadData();
+                  
+
+                }
+            }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            clear_data();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            clear_data();
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            BindingContext[dt].Position = 0;
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            BindingContext[dt].Position = dt.Rows.Count - 1;
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            BindingContext[dt].Position += 1;
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            BindingContext[dt].Position -= 1;
+        }
+
+        private void txt_search_TextChanged(object sender, EventArgs e)
+        {
+            if (radioButton1.Checked == true)
+            {
+                dt.Clear();
+                cmd = new SqlCommand("SELECT * FROM employee_details where employee_name like '%" + txt_search.Text+ "%'", con);
+                con.Open();
+                dr = cmd.ExecuteReader();
+                dt.Load(dr);
+                con.Close();
+            } 
+            else if (radioButton2.Checked == true)
+            {
+                dt.Clear();
+                cmd = new SqlCommand("SELECT * FROM employee_details where employee_email like '%" + txt_search.Text + "%'", con);
+                con.Open();
+                dr = cmd.ExecuteReader();
+                dt.Load(dr);
+                con.Close();
+            }
+            else if (radioButton3.Checked == true)
+            {
+                dt.Clear();
+                cmd = new SqlCommand("SELECT * FROM employee_details where employee_address like '%" + txt_search.Text + "%'", con);
+                con.Open();
+                dr = cmd.ExecuteReader();
+                dt.Load(dr);
+                con.Close();
+            }
+            else if (radioButton4.Checked == true)
+            {
+                dt.Clear();
+                cmd = new SqlCommand("SELECT * FROM employee_details where employee_phone like '%" + txt_search.Text + "%'", con);
+                con.Open();
+                dr = cmd.ExecuteReader();
+                dt.Load(dr);
+                con.Close();
+            } else
+            {
+                MessageBox.Show("Please choose Search By !!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txt_search.Clear();
             }
         }
     }
