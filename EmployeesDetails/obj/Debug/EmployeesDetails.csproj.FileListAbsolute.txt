@@ -1,0 +1,12 @@
+C:\Users\PC\Source\Repos\EmployeesDetails\EmployeesDetails\bin\Debug\EmployeesDetails.exe.config
+C:\Users\PC\Source\Repos\EmployeesDetails\EmployeesDetails\bin\Debug\EmployeesDetails.exe
+C:\Users\PC\Source\Repos\EmployeesDetails\EmployeesDetails\bin\Debug\EmployeesDetails.pdb
+C:\Users\PC\Source\Repos\EmployeesDetails\EmployeesDetails\obj\Debug\EmployeesDetails.Form1.resources
+C:\Users\PC\Source\Repos\EmployeesDetails\EmployeesDetails\obj\Debug\EmployeesDetails.Properties.Resources.resources
+C:\Users\PC\Source\Repos\EmployeesDetails\EmployeesDetails\obj\Debug\EmployeesDetails.csproj.GenerateResource.cache
+C:\Users\PC\Source\Repos\EmployeesDetails\EmployeesDetails\obj\Debug\EmployeesDetails.csproj.CoreCompileInputs.cache
+C:\Users\PC\Source\Repos\EmployeesDetails\EmployeesDetails\obj\Debug\EmployeesDetails.exe
+C:\Users\PC\Source\Repos\EmployeesDetails\EmployeesDetails\obj\Debug\EmployeesDetails.pdb
+C:\Users\PC\Source\Repos\EmployeesDetails\EmployeesDetails\bin\Debug\Bunifu_UI_v1.52.dll
+C:\Users\PC\Source\Repos\EmployeesDetails\EmployeesDetails\obj\Debug\EmployeesDetails.csproj.CopyComplete
+C:\Users\PC\Source\Repos\EmployeesDetails\EmployeesDetails\obj\Debug\EmployeesDetails.csprojAssemblyReference.cache
