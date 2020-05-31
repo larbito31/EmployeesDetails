@@ -96,7 +96,7 @@ namespace EmployeesDetails
                 
                 LoadData();
                 MessageBox.Show("Successfully added!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
+                clear_data();
 
 
             } else
@@ -118,6 +118,7 @@ namespace EmployeesDetails
                 LoadData();
                 
                 MessageBox.Show("Successfully added!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                clear_data();
             }
             
         }
@@ -324,6 +325,18 @@ namespace EmployeesDetails
                 MessageBox.Show("Please choose Search By !!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 txt_search.Clear();
             }
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            CrystalReport1 report = new CrystalReport1();
+            report.SetDataSource(dt);
+            Form2 f2 = new Form2();
+            f2.crystalReportViewer1.ReportSource = report;
+            f2.crystalReportViewer1.Zoom(120);
+            f2.Show();
+
+
         }
     }
 }
